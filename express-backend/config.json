@@ -1,4 +1,4 @@
 {
-  "connectionString": "mongodb://localhost:27017/cyber-security-mean-db",
+  "localConnectionString": "mongodb://localhost:27017/cyber-security-mean-db",
   "secret": "THIS RANDOM STRING IS USED TO VERIFY JWT TOKENS...MAYBE THIS SHOULD BE MORE RANDOM!!"
 }

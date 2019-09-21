@@ -2,17 +2,24 @@
  * Connects to MongoDB using Mongo.
  * Exports database model objects.
  */
-
-const config = require('config.json');
+//const config = require('config.json');
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || config.connectionString, { useCreateIndex: true, useNewUrlParser: true });
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+//|| config.localConnectionString,
+
+mongoose.connect(process.env.DB_CONNECT_STRING ,{
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true })
+    .then(() => console.log('Connected to mongodb.'))
+    .catch(() => console.log('Error. Connection to mongodb failed.'));
+
 mongoose.Promise = global.Promise;
 
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log('MongoDB connection established successfully!');
-});
-
 module.exports = {
-    User: require('../features/users/user.model')
+    User: require('../features/users/user.model'),
+    Issue: require('../features/issues/issue.model')
 };

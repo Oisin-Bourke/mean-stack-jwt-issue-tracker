@@ -3,7 +3,7 @@
  * Starts Express web server.
  */
 
-require('rootpath')();
+require('rootpath')();//make all paths relative to the root directory.
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -18,8 +18,10 @@ app.use(cors());
 // use JWT auth to secure the api
 app.use(jwt());
 
-// api routes
+// api routes middlewares
 app.use('/users', require('./features/users/users.controller'));
+//app.use('/', require('./features/users/users.controller'));
+app.use('/issues', require('./features/issues/issues.controller'));
 
 // global error handler
 app.use(errorHandler);

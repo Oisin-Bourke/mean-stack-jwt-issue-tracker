@@ -1,12 +1,13 @@
 /**
  * Core business logic with authenticate and CRUD methods.
  */
-
-const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db.js');
+const dotenv = require('dotenv');
 const User = db.User;
+
+dotenv.config();
 
 //service method definitions:
 module.exports = {
@@ -20,9 +21,12 @@ module.exports = {
 
 async function authenticate({ username, password }) {
     const user = await User.findOne({ username });
+    //if password matches user's hashed password
     if (user && bcrypt.compareSync(password, user.hash)) {
+        //user to Object less hashed password
         const { hash, ...userWithoutHash } = user.toObject();
-        const token = jwt.sign({ sub: user.id }, config.secret);
+        //get token with user... jwt.sign(payload,secret key)
+        const token = jwt.sign({ sub: user.id }, process.env.SECRET /*add time-frame or sign options param here*/);
         return {
             ...userWithoutHash,
             token
@@ -31,10 +35,12 @@ async function authenticate({ username, password }) {
 }
 
 async function getAll() {
+    //less -hash field
     return await User.find().select('-hash');
 }
 
 async function getById(id) {
+    //less -hash field
     return await User.findById(id).select('-hash');
 }
 
@@ -44,9 +50,15 @@ async function create(userParam) {
         throw 'Username "' + userParam.username + '" is already taken';
     }
 
+    /*
+    if (await User.findOne({ email: userParam.email })){
+        throw 'Email "' + userParam.email + '" is already in use';
+    }
+    */
+
     const user = new User(userParam);
 
-    // hash password
+    // hashing password with bcrypt
     if (userParam.password) {
         user.hash = bcrypt.hashSync(userParam.password, 10);
     }
@@ -64,12 +76,10 @@ async function update(id, userParam) {
         throw 'Username "' + userParam.username + '" is already taken';
     }
 
-    // hash password if it was entered
     if (userParam.password) {
         userParam.hash = bcrypt.hashSync(userParam.password, 10);
     }
 
-    // copy userParam properties to user
     Object.assign(user, userParam);
 
     await user.save();
