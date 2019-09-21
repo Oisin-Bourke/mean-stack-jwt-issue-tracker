@@ -13,8 +13,8 @@ import { AlertService } from "../../services/alert.service";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loading = false;
-  submitted = false;
+  //loading = false;
+  //submitted = false;
   returnUrl: string;
 
 
@@ -27,10 +27,8 @@ export class LoginComponent implements OnInit {
   ) {
     //redirect to home if logged in
     if(this.authenticationService.currentUserValue){
-      this.router.navigate(['/']);
+      this.router.navigate(['/issues']);
     }
-
-
   }
 
   ngOnInit() {
@@ -39,33 +37,31 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/issues';
   }
 
-  get f() { return this.loginForm.controls; }
+  //get f() { return this.loginForm.controls; }
 
-  onSubmit() {
-    this.submitted = true;
-
-    //reset alerts
-    this.alertService.clear();
+  onSubmit(username, password) {
+    //this.submitted = true;
 
     //if form invalid stop
     if (this.loginForm.invalid){
       return;
     }
 
-    this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
+    //this.loading = true;
+    this.authenticationService.login( username, password)
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          //this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/issues', data._id]);
+          console.log(data);
         },
         error => {
           this.alertService.error(error);
-          this.loading = false;
-
+          //this.loading = false;
         });
   }
 

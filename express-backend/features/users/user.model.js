@@ -10,9 +10,9 @@ const userSchema = new Schema({
     hash: { type: String, required: true },
     firstName: { type: String, trim: true, required: true },
     lastName: { type: String, trim: true, required: true },
-    //company: { type: String, trim: true, required: true },
-    //email: { type: String, trim: true, required: true },
-    //telephone: { type: String, trim: true, require: true },
+    company: { type: String, trim: true, required: true },
+    email: { type: String, trim: true, required: true },
+    telephone: { type: String, trim: true, require: true },
     createdDate: { type: Date, default: Date.now }
 });
 

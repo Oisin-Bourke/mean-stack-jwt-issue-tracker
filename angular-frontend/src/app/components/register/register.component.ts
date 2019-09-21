@@ -10,8 +10,8 @@ import { UserService } from "../../services/user.service";
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  loading = false;
-  submitted = false;
+  //loading = false;
+  //submitted = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,26 +30,26 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      company: ['', Validators.required],
+      telephone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  //get f() { return this.registerForm.controls; }
 
   onSubmit() {
-    this.submitted = true;
-
-    // reset alerts on submit
-    this.alertService.clear();
+    //this.submitted = true;
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
 
-    this.loading = true;
+    //this.loading = true;
     this.userService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(
@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
         },
         error => {
           this.alertService.error(error);
-          this.loading = false;
+          //this.loading = false;
         });
   }
 }
