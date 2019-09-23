@@ -18,9 +18,8 @@ app.use(cors());
 // use JWT auth to secure the api
 app.use(jwt());
 
-// api routes middlewares
+// api routes middle-wares
 app.use('/users', require('./features/users/users.controller'));
-//app.use('/', require('./features/users/users.controller'));
 app.use('/issues', require('./features/issues/issues.controller'));
 
 // global error handler

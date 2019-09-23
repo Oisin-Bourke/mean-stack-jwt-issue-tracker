@@ -9,6 +9,7 @@ const issueSchema = new Schema({
     title: { type: String, trim: true, required: true },
     description: { type: String, trim: true, required: true },
     url: { type: String, trim: true, required: true },
+    responsible: { type: String, trim: true, required: true },
     severity: { type: String },
     status: { type: String, default: 'Open' },
     createdDate: { type: Date, default: Date.now },

@@ -21,6 +21,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import { IssueListComponent } from './components/issue-list/issue-list.component';
+import {IssueService} from "./services/issue.service";
+import {MatTableModule} from "@angular/material/table";
+import { IssueCreateComponent } from './components/issue-create/issue-create.component';
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -30,7 +34,8 @@ import { IssueListComponent } from './components/issue-list/issue-list.component
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    IssueListComponent
+    IssueListComponent,
+    IssueCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +47,11 @@ import { IssueListComponent } from './components/issue-list/issue-list.component
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule,
+    MatSelectModule
   ],
-  providers: [UserService,
+  providers: [UserService,IssueService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent]
