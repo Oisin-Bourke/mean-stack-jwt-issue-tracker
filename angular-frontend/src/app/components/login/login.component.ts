@@ -27,9 +27,8 @@ export class LoginComponent implements OnInit {
   ) {
     //redirect to issue list if logged in
     if(this.authenticationService.currentUserValue){
-      var user = this.authenticationService.currentUserValue;
-      var userId = user.id;
-      this.router.navigate(['/issues/', userId]);
+      const user = this.authenticationService.currentUserValue;
+      this.router.navigate(['/issues/', user.id]);
     }
   }
 

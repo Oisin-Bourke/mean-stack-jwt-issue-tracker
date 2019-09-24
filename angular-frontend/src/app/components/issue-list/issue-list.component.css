@@ -5,3 +5,8 @@ table{
 .mat-column-right {
   text-align: center;
 }
+
+button{
+  margin-left: 15px;
+  margin-right: 15px;
+}

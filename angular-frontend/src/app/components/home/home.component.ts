@@ -5,10 +5,13 @@ import { User} from "../../models/user.model";
 import { AuthenticationService} from "../../services/authentication.service";
 import { UserService } from "../../services/user.service";
 
-@Component({ templateUrl: 'home.component.html' })
+@Component({
+  templateUrl: 'home.component.html',
+  styleUrls: ['./home.component.css']})
 export class HomeComponent implements OnInit {
   currentUser: User;
   users = [];
+  displayedColumns = ['createdDate','username','firstName', 'lastName', 'company', 'telephone', 'email', 'actions'];
 
   constructor(
     private authenticationService: AuthenticationService,

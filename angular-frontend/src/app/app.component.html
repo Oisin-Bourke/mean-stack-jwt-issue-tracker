@@ -1,18 +1,22 @@
-<!-- nav -->
+<!--
 <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/">Home</a>
     <button class="nav-item nav-link" (click)="logout()">Logout</button>
   </div>
 </nav>
-
+-->
+<!-- nav -->
+<mat-toolbar color="primary">
+  <span> MEAN Stack - Issue Tracker </span>
+  <span class="fill-remaining-space"></span>
+  <span *ngIf="currentUser"> {{currentUser.username}}
+  <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+  </span>
+</mat-toolbar>
+<br>
 <!-- main content container -->
-<div class="jumbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-8 offset-sm-2">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
+<div>
+  <router-outlet></router-outlet>
 </div>
+

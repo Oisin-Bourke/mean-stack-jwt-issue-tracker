@@ -12,22 +12,26 @@ import { IssueService } from "../../services/issue.service";
 export class IssueListComponent implements OnInit {
   issues: Issue[]; // hold the data from the service
   displayedColumns = ['title', 'description', 'url', 'responsible', 'severity', 'status', 'actions'];
-  userId: any;
+  threatDisplayedColumns = ['index', 'threat', 'threatType'];
+  userId: String;
+  urls: String[];
+  matches = [];
 
   constructor(
     private issueService: IssueService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.userId = this.route.snapshot.paramMap.get('id');
+    this.userId = this.route.snapshot.paramMap.get('userId');
     this.fetchIssuesById(this.userId);
+    this.fetchUrlsById(this.userId);
   }
 
   ngOnInit() {
   }
 
-  fetchIssues() {
+  fetchIssuesById(id) {
     this.issueService
-      .getAll()
+      .getAllIssuesByUserId(id)
       .subscribe((data: Issue[]) => {
         this.issues = data;
         console.log('Data requested...');
@@ -35,18 +39,44 @@ export class IssueListComponent implements OnInit {
       });
   }
 
-  fetchIssuesById(id) {
+  fetchUrlsById(id){
     this.issueService
-      .getAllIssuesById(id)
-      .subscribe((data: Issue[]) => {
-        this.issues = data;
-        console.log('Data requested...');
-        console.log(this.issues);
-      });
+      .getUrls(id)
+      .subscribe( (data: String[]) =>{
+        this.urls = data;
+        console.log(this.urls)
+      })
+  }
+
+  checkSafe(){
+    const array: Object[] = [];
+    this.urls.forEach(function (element) {
+      const obj = {
+        url: String
+      };
+      obj.url = element['url'];
+      array.push(obj);
+    });
+    console.log(array);
+    this.issueService.checkSafeBrowsing(array).subscribe( (data: String[]) => {
+      this.matches = data['matches'];
+      console.log(this.matches);
+    });
   }
 
   navigateCreate(){
-    this.router.navigate(['/issues/', this.userId, 'add_issue']);
+    this.router.navigate(['/issues/',this.userId,'add_issue']);
   }
+
+  navigateUpdate(issueId) {
+    this.router.navigate([`/issues/${this.userId}/get/${issueId}`]);
+  }
+
+  deleteIssue(issueId) {
+    this.issueService.deleteIssue(issueId).subscribe(() => {
+      this.fetchIssuesById(this.userId);
+    });
+  }
+
 
 }

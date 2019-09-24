@@ -27,14 +27,14 @@ export class IssueCreateComponent implements OnInit {
       severity: ''
     });
 
-    this.userId = this.route.snapshot.paramMap.get('id');
+    this.userId = this.route.snapshot.paramMap.get('userId');
   }
 
   ngOnInit() {
   }
 
   addIssue(title, description, url, responsible, severity) {
-    this.issueService.addIssue(this.userId, title, description, url, responsible, severity).subscribe(() => {
+    this.issueService.addIssue(title, description, url, responsible, severity, this.userId).subscribe(() => {
       this.router.navigate(['/issues/', this.userId]);
     });
   }

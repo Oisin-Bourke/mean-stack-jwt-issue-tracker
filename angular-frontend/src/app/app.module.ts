@@ -25,6 +25,10 @@ import {IssueService} from "./services/issue.service";
 import {MatTableModule} from "@angular/material/table";
 import { IssueCreateComponent } from './components/issue-create/issue-create.component';
 import {MatSelectModule} from "@angular/material/select";
+import { IssueUpdateComponent } from './components/issue-update/issue-update.component';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatSortModule} from "@angular/material/sort";
 
 
 @NgModule({
@@ -35,7 +39,8 @@ import {MatSelectModule} from "@angular/material/select";
     LoginComponent,
     RegisterComponent,
     IssueListComponent,
-    IssueCreateComponent
+    IssueCreateComponent,
+    IssueUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +54,10 @@ import {MatSelectModule} from "@angular/material/select";
     MatInputModule,
     MatButtonModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatSortModule
   ],
   providers: [UserService,IssueService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

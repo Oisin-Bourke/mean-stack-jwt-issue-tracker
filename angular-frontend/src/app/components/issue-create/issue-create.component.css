@@ -1,0 +1,15 @@
+.create-form{
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.field-full-width{
+  width: 100%;
+}
+
+button{
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 10px;
+}

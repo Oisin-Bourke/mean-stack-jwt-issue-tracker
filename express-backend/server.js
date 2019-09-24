@@ -5,6 +5,7 @@
 
 require('rootpath')();//make all paths relative to the root directory.
 const express = require('express');
+const router = express.Router();
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -29,5 +30,17 @@ app.use(errorHandler);
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
+});
+
+router.route('https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDgu-yQy8a09QIB7qhLmXqChS6BncFZmD4'
+).post((req, res) => {
+    let issue = new Issue(req.body);
+    issue.save()
+        .then(issue => {
+            res.status(200).json({'issue': 'Added successfully'});
+        })
+        .catch(err => {
+            res.status(400).send('Failed to create new record');
+        });
 });
 

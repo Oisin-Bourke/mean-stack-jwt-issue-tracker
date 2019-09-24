@@ -4,9 +4,11 @@ const Issue = db.Issue;
 module.exports = {
     getAll,
     getAllByUser,
+    getIssueById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    getUrls,
 };
 
 async function getAll() {
@@ -15,6 +17,10 @@ async function getAll() {
 
 async function getAllByUser(userId) {
     return await Issue.find({ author: userId});
+}
+
+async function getIssueById(issueId) {
+    return await Issue.findById(issueId);
 }
 
 async function create(title, description, url, responsible, severity, userId) {
@@ -29,18 +35,22 @@ async function create(title, description, url, responsible, severity, userId) {
     await issue.save();
 }
 
-async function update(id, issueParam) {
-    const issue = await Issue.findById(id);
+async function update(issueId, issueParam) {
+    console.log('issueid' + issueId);
+    const issue = await Issue.findById(issueId);
     // validate
     if (!issue) throw 'Issue not found';
 
     Object.assign(issue,issueParam);
-
     await issue.save();
 }
 
 async function _delete(id) {
     await Issue.findByIdAndRemove(id);
+}
+
+async function getUrls(userId) {
+    return await Issue.find({ author: userId}).select('url');
 }
 
 
